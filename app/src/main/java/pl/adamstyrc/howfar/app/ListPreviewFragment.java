@@ -30,7 +30,7 @@ public class ListPreviewFragment extends Fragment {
 
         if (savedInstanceState == null) {
             mListFragment = new PlaceListFragment();
-            getChildFragmentManager().beginTransaction().add(R.id.left, mListFragment, LIST_FRAGMENT).commit();
+            getChildFragmentManager().beginTransaction().add(mListLayout.getId(), mListFragment, LIST_FRAGMENT).commit();
         }
 
 

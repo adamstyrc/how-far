@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="pl.adamstyrc.howfar.app.MainActivity" >
     
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    <item android:id="@+id/action_refresh"
+        android:title="@string/refresh"
+        android:icon="@android:drawable/ic_popup_sync"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="always" />
 </menu>
