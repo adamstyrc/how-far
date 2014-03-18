@@ -1,40 +1,29 @@
 package pl.adamstyrc.howfar.app;
 
-import android.app.ListActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-
-import java.util.ArrayList;
 
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends FragmentActivity {
 
     private PlaceAdapter mAdapter;
+    private ListPreviewFragment mListPreviewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        ArrayList<Place> places = new ArrayList<Place>();
-        Place place = new Place("Dom");
-        place.setDistance("15km");
-        place.setTime("5 min");
-        places.add(place);
-
-        place = new Place("Praca");
-        place.setDistance("3km");
-        place.setTime("1 min");
-        places.add(place);
-
-        place = new Place("Asiula");
-        place.setDistance("50km");
-        place.setTime("1 h 10 min");
-        places.add(place);
-
-        mAdapter = new PlaceAdapter(this, places);
-        setListAdapter(mAdapter);
+        mListPreviewFragment = (ListPreviewFragment) getSupportFragmentManager().findFragmentById(R.id.main);
+        if (mListPreviewFragment == null) {
+            mListPreviewFragment = new ListPreviewFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.main, mListPreviewFragment);
+            ft.commit();
+        }
     }
 
 
