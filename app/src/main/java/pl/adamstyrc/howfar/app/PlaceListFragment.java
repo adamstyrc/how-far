@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PlaceListFragment extends ListFragment {
 
     private PlaceAdapter mAdapter;
-    private ArrayList<Place> mPlaces;
+
     private LocationManager mLocationManager;
 
     @Override
@@ -51,20 +51,7 @@ public class PlaceListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPlaces = new ArrayList<Place>();
-        Place place = new Place("Dom");
-        place.setAddress("Racławicka 1, Kraków");
-        mPlaces.add(place);
-
-        place = new Place("Praca");
-        place.setAddress("Bolesława Czerwieńskiego 8, Kraków");
-        mPlaces.add(place);
-
-        place = new Place("Ada");
-        place.setAddress("Freidleina 18, Kraków");
-        mPlaces.add(place);
-
-        mAdapter = new PlaceAdapter(getActivity(), mPlaces);
+        mAdapter = new PlaceAdapter(getActivity(), PlacesManager.getInstance().getPlaces());
         setListAdapter(mAdapter);
     }
 
@@ -79,7 +66,7 @@ public class PlaceListFragment extends ListFragment {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                for (Place place : mPlaces) {
+                for (Place place : PlacesManager.getInstance().getPlaces()) {
                     Route route = DirectionsService.getInstance().getRoute(mUserLocation, place.getAddress());
                     if (route != null) {
                         place.setTime(route.getTotalDuration());

@@ -6,5 +6,7 @@
     <string name="refresh">Odśwież</string>
     <string name="title_place_list">Places</string>
     <string name="title_place_detail">Place Detail</string>
+    <string name="drawer_open">Ala</string>
+    <string name="drawer_close">Beata</string>
 
 </resources>
