@@ -29,7 +29,6 @@ public class DirectionsService {
     }
 
     public Route getRoute(Location origin, String destination) throws IOException {
-
         URL url = makeUrl(origin, destination);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
@@ -64,6 +63,7 @@ public class DirectionsService {
     private URL makeUrl(Location origin, String destination) throws MalformedURLException {
         String originLat = String.valueOf(origin.getLatitude());
         String originLng = String.valueOf(origin.getLongitude());
+        destination = destination.replaceAll(" ", "%20");
         String url = String.format(BASE_URL, originLat, originLng, destination);
         return new URL(url);
     }

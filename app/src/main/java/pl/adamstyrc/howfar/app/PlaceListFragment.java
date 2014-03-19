@@ -61,8 +61,7 @@ public class PlaceListFragment extends ListFragment {
         place = new Place("Praca");
         place.setDistance("3km");
         place.setTime("1 min");
-//        place.setAddress("Czarnowiejska 1, Kraków");
-        place.setAddress("Kraków");
+        place.setAddress("Czarnowiejska 1, Kraków");
         mPlaces.add(place);
 
 //        place = new Place("Asiula");
