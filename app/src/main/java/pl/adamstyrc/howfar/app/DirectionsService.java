@@ -1,6 +1,7 @@
 package pl.adamstyrc.howfar.app;
 
-import com.google.android.gms.maps.model.LatLng;
+import android.location.Location;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.net.URL;
 public class DirectionsService {
     public static final String BASE_URL = "http://maps.googleapis.com/maps/api/directions/json?"
             + "origin=%s,%s" +
-            "&destination=%s,%s" +
+            "&destination=%s" +
             "&sensor=false&units=metric&mode=driving";
     private static DirectionsService sInstance;
 
@@ -25,10 +26,10 @@ public class DirectionsService {
     }
 
     private DirectionsService() {
-
     }
 
-    public Route getRoute(LatLng origin, LatLng destination) throws IOException {
+    public Route getRoute(Location origin, String destination) throws IOException {
+
         URL url = makeUrl(origin, destination);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
@@ -60,12 +61,10 @@ public class DirectionsService {
         return null;
     }
 
-    private URL makeUrl(LatLng origin, LatLng destination) throws MalformedURLException {
-        String originLat = String.valueOf(origin.latitude);
-        String originLng = String.valueOf(origin.longitude);
-        String destinationLat = String.valueOf(destination.latitude);
-        String destinationLng = String.valueOf(destination.longitude);
-        String url = String.format(BASE_URL, originLat, originLng, destinationLat, destinationLng);
+    private URL makeUrl(Location origin, String destination) throws MalformedURLException {
+        String originLat = String.valueOf(origin.getLatitude());
+        String originLng = String.valueOf(origin.getLongitude());
+        String url = String.format(BASE_URL, originLat, originLng, destination);
         return new URL(url);
     }
 }

@@ -5,6 +5,8 @@ public class Place {
     private String mName;
     private String mDistance;
     private String mTime;
+    private String mAddress;
+
 
     public Place(String name) {
         mName = name;
@@ -28,5 +30,13 @@ public class Place {
 
     public String getTime() {
         return mTime;
+    }
+
+    public String getAddress() {
+        return mAddress;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
     }
 }
