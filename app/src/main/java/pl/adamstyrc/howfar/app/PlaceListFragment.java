@@ -88,8 +88,8 @@ public class PlaceListFragment extends ListFragment {
                 for (Place place : mPlaces) {
                     Route route = DirectionsService.getInstance().getRoute(mUserLocation, place.getAddress());
                     if (route != null) {
-                        place.setTime(route.getTotalDuration() + "");
-                        place.setDistance(route.getTotalDistance() + "");
+                        place.setTime(route.getTotalDuration());
+                        place.setDistance(route.getTotalDistance());
                     }
                 }
 

@@ -24,8 +24,8 @@ public class RouteParser {
 
 
             JSONObject leg = legs.getJSONObject(0);
-            long totalDistance = leg.getJSONObject("distance").getLong("value");
-            long totalDuration = leg.getJSONObject("duration").getLong("value");
+            String distance = leg.getJSONObject("distance").getString("text");
+            String duration = leg.getJSONObject("duration").getString("text");
 
             JSONArray steps = leg.getJSONArray("steps");
             for (int i = 0; i < steps.length(); i++) {
@@ -45,11 +45,7 @@ public class RouteParser {
 //                );
             }
 
-            return new Route(
-                    totalDistance,
-                    totalDuration,
-                    stepLocations
-            );
+            return new Route(distance, duration, stepLocations);
         } catch (JSONException e) {
             e.printStackTrace();
         }

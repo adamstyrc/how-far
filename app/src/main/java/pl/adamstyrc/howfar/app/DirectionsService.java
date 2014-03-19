@@ -6,9 +6,11 @@ import android.location.Location;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class DirectionsService {
     public static final String BASE_URL = "http://maps.googleapis.com/maps/api/directions/json?"
@@ -63,7 +65,11 @@ public class DirectionsService {
     private URL makeUrl(Location origin, String destination) throws MalformedURLException {
         String originLat = String.valueOf(origin.getLatitude());
         String originLng = String.valueOf(origin.getLongitude());
-        destination = destination.replaceAll(" ", "%20");
+        try {
+            destination = URLEncoder.encode(destination, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
         String url = String.format(BASE_URL, originLat, originLng, destination);
         return new URL(url);
     }

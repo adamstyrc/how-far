@@ -6,21 +6,21 @@ import java.util.List;
 
 public class Route {
 
-    private long mTotalDistance;
-    private long mTotalDuration;
+    private String mTotalDistance;
+    private String mTotalDuration;
     private List<LatLng> mStepsLocations;
 
-    public Route(long mTotalDistance, long mTotalDuration, List<LatLng> mStartLocations) {
-        this.mTotalDistance = mTotalDistance;
-        this.mTotalDuration = mTotalDuration;
-        this.mStepsLocations = mStartLocations;
+    public Route(String totalDistance, String totalDuration, List<LatLng> stepsLocations) {
+        mTotalDistance = totalDistance;
+        mTotalDuration = totalDuration;
+        mStepsLocations = stepsLocations;
     }
 
-    public long getTotalDistance() {
+    public String getTotalDistance() {
         return mTotalDistance;
     }
 
-    public long getTotalDuration() {
+    public String getTotalDuration() {
         return mTotalDuration;
     }
 
