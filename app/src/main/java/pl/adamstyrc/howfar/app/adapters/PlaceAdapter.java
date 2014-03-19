@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+
+import pl.adamstyrc.howfar.app.Place;
+import pl.adamstyrc.howfar.app.R;
 
 
 public class PlaceAdapter extends ArrayAdapter<Place> {

@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -14,6 +14,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+
+import pl.adamstyrc.howfar.app.PlacesManager;
+import pl.adamstyrc.howfar.app.R;
+import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
 
 
 public class MainActivity extends FragmentActivity {

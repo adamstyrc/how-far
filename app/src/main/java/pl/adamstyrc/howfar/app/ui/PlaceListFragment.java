@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.ui;
 
 import android.content.Context;
 import android.location.Location;
@@ -12,7 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
+import pl.adamstyrc.howfar.app.DirectionsService;
+import pl.adamstyrc.howfar.app.Place;
+import pl.adamstyrc.howfar.app.PlacesManager;
+import pl.adamstyrc.howfar.app.R;
+import pl.adamstyrc.howfar.app.Route;
+import pl.adamstyrc.howfar.app.adapters.PlaceAdapter;
 
 public class PlaceListFragment extends ListFragment {
 
