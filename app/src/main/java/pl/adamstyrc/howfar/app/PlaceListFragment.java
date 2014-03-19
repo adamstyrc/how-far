@@ -53,22 +53,16 @@ public class PlaceListFragment extends ListFragment {
 
         mPlaces = new ArrayList<Place>();
         Place place = new Place("Dom");
-        place.setDistance("15km");
-        place.setTime("5 min");
-        place.setAddress("Warszawa");
+        place.setAddress("Racławicka 1, Kraków");
         mPlaces.add(place);
 
         place = new Place("Praca");
-        place.setDistance("3km");
-        place.setTime("1 min");
-        place.setAddress("Czarnowiejska 1, Kraków");
+        place.setAddress("Bolesława Czerwieńskiego 8, Kraków");
         mPlaces.add(place);
 
-//        place = new Place("Asiula");
-//        place.setDistance("50km");
-//        place.setTime("1 h 10 min");
-//        place.setAddress("Racławicka 1, Kraków");
-//        mPlaces.add(place);
+        place = new Place("Ada");
+        place.setAddress("Freidleina 18, Kraków");
+        mPlaces.add(place);
 
         mAdapter = new PlaceAdapter(getActivity(), mPlaces);
         setListAdapter(mAdapter);
