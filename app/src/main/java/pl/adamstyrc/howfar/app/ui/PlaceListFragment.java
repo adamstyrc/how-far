@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import pl.adamstyrc.howfar.app.DirectionsService;
 import pl.adamstyrc.howfar.app.Place;
-import pl.adamstyrc.howfar.app.PlacesManager;
+import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.Route;
 import pl.adamstyrc.howfar.app.adapters.PlaceAdapter;
@@ -58,7 +58,7 @@ public class PlaceListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mAdapter = new PlaceAdapter(getActivity(), PlacesManager.getInstance().getPlaces());
+        mAdapter = new PlaceAdapter(getActivity(), PlaceManager.getInstance().getPlaces());
         setListAdapter(mAdapter);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,7 +82,7 @@ public class PlaceListFragment extends ListFragment {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                for (Place place : PlacesManager.getInstance().getPlaces()) {
+                for (Place place : PlaceManager.getInstance().getPlaces()) {
                     Route route = DirectionsService.getInstance().getRoute(mUserLocation, place.getAddress());
                     if (route != null) {
                         place.setTime(route.getTotalDuration());

@@ -13,9 +13,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 
-import pl.adamstyrc.howfar.app.PlacesManager;
+import pl.adamstyrc.howfar.app.Place;
+import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
 
@@ -25,6 +28,7 @@ public class MainActivity extends FragmentActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerAdapter mDrawerAdapter;
 
     private ListPreviewFragment mListPreviewFragment;
     private LocationManager mLocationManager;
@@ -63,7 +67,17 @@ public class MainActivity extends FragmentActivity {
         getActionBar().setHomeButtonEnabled(true);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new DrawerAdapter(this, PlacesManager.getInstance().getPlaces()));
+        mDrawerAdapter = new DrawerAdapter(this, PlaceManager.getInstance().getPlaces());
+        mDrawerList.setAdapter(mDrawerAdapter);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+                popupMenu.inflate(R.menu.place_popup_menu);
+                popupMenu.show();
+                Place place = mDrawerAdapter.getItem(position);
+            }
+        });
 
         mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 

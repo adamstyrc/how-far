@@ -5,13 +5,13 @@ import java.util.ArrayList;
 /**
  * Created by Light on 19.03.14.
  */
-public class PlacesManager {
+public class PlaceManager {
 
-    private static PlacesManager sInstance;
+    private static PlaceManager sInstance;
 
-    public static synchronized PlacesManager getInstance() {
+    public static synchronized PlaceManager getInstance() {
         if (sInstance == null) {
-            sInstance = new PlacesManager();
+            sInstance = new PlaceManager();
         }
 
         return sInstance;
@@ -19,7 +19,7 @@ public class PlacesManager {
 
     private ArrayList<Place> mPlaces;
 
-    private PlacesManager() {
+    private PlaceManager() {
         mPlaces = new ArrayList<Place>();
         Place place = new Place("Dom");
         place.setAddress("Racławicka 1, Kraków");
