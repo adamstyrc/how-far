@@ -1,11 +1,16 @@
 package pl.adamstyrc.howfar.app;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
+
 public class Place {
 
     private String mName;
+    private String mAddress;
     private String mDistance;
     private String mTime;
-    private String mAddress;
+    private List<LatLng> mRoute;
 
 
     public Place(String name) {
@@ -38,5 +43,13 @@ public class Place {
 
     public void setAddress(String address) {
         mAddress = address;
+    }
+
+    public void setRoute(List<LatLng> route) {
+        mRoute = route;
+    }
+
+    public List<LatLng> getRoute() {
+        return mRoute;
     }
 }

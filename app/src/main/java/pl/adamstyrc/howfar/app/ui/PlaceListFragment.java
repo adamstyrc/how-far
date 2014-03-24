@@ -62,8 +62,11 @@ public class PlaceListFragment extends ListFragment {
         setListAdapter(mAdapter);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ((ListPreviewFragment) getParentFragment()).showMap();
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Place place = mAdapter.getItem(position);
+                if (place != null) {
+                    ((ListPreviewFragment) getParentFragment()).showMap(place);
+                }
             }
         });
     }
@@ -84,6 +87,7 @@ public class PlaceListFragment extends ListFragment {
                     if (route != null) {
                         place.setTime(route.getTotalDuration());
                         place.setDistance(route.getTotalDistance());
+                        place.setRoute(route.getStepsLocations());
                     }
                 }
 

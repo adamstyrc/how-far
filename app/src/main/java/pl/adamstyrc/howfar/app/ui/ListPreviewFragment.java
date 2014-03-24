@@ -9,8 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.List;
+
+import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.R;
 
 public class ListPreviewFragment extends Fragment {
@@ -56,7 +65,29 @@ public class ListPreviewFragment extends Fragment {
         return view;
     }
 
-    public void showMap() {
+    public void showMap(Place place) {
+        GoogleMap map = ((SupportMapFragment) mPreviewFragment).getMap();
+        map.clear();
+
+        List<LatLng> route = place.getRoute();
+        if (route != null) {
+            LatLng finalLocation = route.get(route.size() - 1);
+            map.addMarker(new MarkerOptions()
+                    .position(finalLocation)
+                    .title(place.getName()));
+
+            PolylineOptions polylineOptions = new PolylineOptions();
+            polylineOptions.addAll(route);
+            map.addPolyline(polylineOptions);
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(route.get(0))      // Sets the center of the map to location user
+                    .zoom(9)                   // Sets the zoom
+                    .build();                   // Creates a CameraPosition from the builder
+            map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        }
+
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.show(mPreviewFragment).commit();
     }
