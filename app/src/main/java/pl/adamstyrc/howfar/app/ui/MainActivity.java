@@ -116,4 +116,10 @@ public class MainActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mListPreviewFragment != null) {
+            mListPreviewFragment.onBackPressed();
+        }
+    }
 }

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import java.io.IOException;
 
@@ -59,6 +60,12 @@ public class PlaceListFragment extends ListFragment {
 
         mAdapter = new PlaceAdapter(getActivity(), PlacesManager.getInstance().getPlaces());
         setListAdapter(mAdapter);
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ((ListPreviewFragment) getParentFragment()).showMap();
+            }
+        });
     }
 
     public class DirectionDownloadTask extends AsyncTask<Void, Void, Void> {
