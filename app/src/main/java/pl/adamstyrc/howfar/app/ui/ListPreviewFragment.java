@@ -43,11 +43,14 @@ public class ListPreviewFragment extends Fragment {
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             mPreviewFragment = new SupportMapFragment();
             ft.add(mListLayout.getId(), mListFragment, LIST_FRAGMENT)
-                    .add(mPreviewLayout.getId(), mPreviewFragment, PREVIEW_FRAGMENT)
-                    .commit();
+                    .add(mPreviewLayout.getId(), mPreviewFragment, PREVIEW_FRAGMENT);
+            if (mIsPhone) {
+                ft.hide(mPreviewFragment);
+            }
+            ft.commit();
         } else {
             mListFragment = (ListFragment) getFragmentManager().findFragmentByTag(LIST_FRAGMENT);
-            mPreviewFragment = (Fragment) getFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
+            mPreviewFragment = getFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
         }
 
         return view;
