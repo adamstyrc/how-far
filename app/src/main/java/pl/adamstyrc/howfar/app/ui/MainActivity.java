@@ -1,7 +1,10 @@
 package pl.adamstyrc.howfar.app.ui;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,13 +17,16 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 
 import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
+import pl.adamstyrc.howfar.app.TransportManager;
 import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
+import pl.adamstyrc.howfar.app.adapters.SelectorAdapter;
 
 
 public class MainActivity extends FragmentActivity {
@@ -38,6 +44,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setActionBarSelector();
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -50,13 +58,11 @@ public class MainActivity extends FragmentActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle("aaaa");
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getActionBar().setTitle("bbbb");
             }
         };
 
@@ -135,5 +141,23 @@ public class MainActivity extends FragmentActivity {
         if (mListPreviewFragment != null) {
             mListPreviewFragment.onBackPressed();
         }
+    }
+
+    private void setActionBarSelector(){
+        final TransportManager transportManager = new TransportManager(this);
+
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        ArrayAdapter<String> adapter = new SelectorAdapter (
+                getBaseContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                transportManager.getTransportOptions());
+
+        getActionBar().setListNavigationCallbacks(adapter, new ActionBar.OnNavigationListener() {
+            @Override
+            public boolean onNavigationItemSelected(int position, long l) {
+                transportManager.setMeanOfTransport(position);
+                return true;
+            }
+        });
     }
 }
