@@ -27,7 +27,7 @@ public class SelectorAdapter extends ArrayAdapter<String> {
                 ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.bike, 0, 0, 0);
                 break;
             case TransportManager.CAR:
-                ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.car, 0, 0, 0);
+                ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(R.drawable.car2, 0, 0, 0);
                 break;
         }
 

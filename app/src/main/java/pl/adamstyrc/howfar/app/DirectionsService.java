@@ -16,7 +16,8 @@ public class DirectionsService {
     public static final String BASE_URL = "http://maps.googleapis.com/maps/api/directions/json?"
             + "origin=%s,%s" +
             "&destination=%s" +
-            "&sensor=false&units=metric&mode=driving";
+            "&sensor=false&units=metric" +
+            "&mode=%s";
     private static DirectionsService sInstance;
 
     public static synchronized DirectionsService getInstance() {
@@ -30,8 +31,8 @@ public class DirectionsService {
     private DirectionsService() {
     }
 
-    public Route getRoute(Location origin, String destination) throws IOException {
-        URL url = makeUrl(origin, destination);
+    public Route getRoute(Location origin, String destination, int meanOfTransport) throws IOException {
+        URL url = makeUrl(origin, destination, meanOfTransport);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("Content-length", "0");
@@ -62,7 +63,8 @@ public class DirectionsService {
         return null;
     }
 
-    private URL makeUrl(Location origin, String destination) throws MalformedURLException {
+    private URL makeUrl(Location origin, String destination, int meanOfTransport) throws MalformedURLException {
+
         String originLat = String.valueOf(origin.getLatitude());
         String originLng = String.valueOf(origin.getLongitude());
         try {
@@ -70,7 +72,24 @@ public class DirectionsService {
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
-        String url = String.format(BASE_URL, originLat, originLng, destination);
+
+        String url = String.format(BASE_URL, originLat, originLng, destination, getMode(meanOfTransport));
         return new URL(url);
+    }
+
+    private String getMode(int meanOfTransport) {
+        switch (meanOfTransport) {
+            case TransportManager.WALK:
+                return "walking";
+
+            case TransportManager.BIKE:
+                return "bicycling";
+
+            case TransportManager.CAR:
+                return "driving";
+
+            default:
+                throw new IllegalArgumentException("No such mean of transport");
+        }
     }
 }

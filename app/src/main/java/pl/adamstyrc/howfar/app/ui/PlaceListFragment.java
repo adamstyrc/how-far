@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -19,6 +20,7 @@ import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.Route;
+import pl.adamstyrc.howfar.app.TransportManager;
 import pl.adamstyrc.howfar.app.adapters.PlaceAdapter;
 
 public class PlaceListFragment extends ListFragment {
@@ -49,6 +51,8 @@ public class PlaceListFragment extends ListFragment {
             Location lastKnownLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             if (lastKnownLocation != null) {
                 new DirectionDownloadTask(lastKnownLocation).execute();
+            } else {
+                Toast.makeText(getActivity(), "Can't get current location", Toast.LENGTH_SHORT).show();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -81,9 +85,10 @@ public class PlaceListFragment extends ListFragment {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            int meanOfTransport = new TransportManager(getActivity()).getMeanOfTransport();
             try {
                 for (Place place : PlaceManager.getInstance().getPlaces()) {
-                    Route route = DirectionsService.getInstance().getRoute(mUserLocation, place.getAddress());
+                    Route route = DirectionsService.getInstance().getRoute(mUserLocation, place.getAddress(), meanOfTransport);
                     if (route != null) {
                         place.setTime(route.getTotalDuration());
                         place.setDistance(route.getTotalDistance());
