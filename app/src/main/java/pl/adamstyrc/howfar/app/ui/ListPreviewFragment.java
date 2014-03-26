@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -65,26 +64,34 @@ public class ListPreviewFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ((SupportMapFragment)mPreviewFragment).getMap().setMyLocationEnabled(true);
+    }
+
     public void showMap(Place place) {
-        GoogleMap map = ((SupportMapFragment) mPreviewFragment).getMap();
-        map.clear();
+        getMap().clear();
 
         List<LatLng> route = place.getRoute();
         if (route != null) {
             LatLng finalLocation = route.get(route.size() - 1);
-            map.addMarker(new MarkerOptions()
+            getMap().addMarker(new MarkerOptions()
                     .position(finalLocation)
-                    .title(place.getName()));
+                    .title(place.getName())).showInfoWindow();
 
             PolylineOptions polylineOptions = new PolylineOptions();
             polylineOptions.addAll(route);
-            map.addPolyline(polylineOptions);
+            polylineOptions.width(7);
+            polylineOptions.color(getResources().getColor(R.color.map_path));
+            getMap().addPolyline(polylineOptions);
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(route.get(0))      // Sets the center of the map to location user
                     .zoom(9)                   // Sets the zoom
                     .build();                   // Creates a CameraPosition from the builder
-            map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            getMap().animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         }
 
@@ -103,5 +110,9 @@ public class ListPreviewFragment extends Fragment {
         } else {
             hideMap();
         }
+    }
+
+    public GoogleMap getMap() {
+        return ((SupportMapFragment) mPreviewFragment).getMap();
     }
 }

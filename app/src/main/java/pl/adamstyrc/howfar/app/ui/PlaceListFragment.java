@@ -27,14 +27,11 @@ public class PlaceListFragment extends ListFragment {
 
     private PlaceAdapter mAdapter;
 
-    private LocationManager mLocationManager;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
@@ -48,9 +45,9 @@ public class PlaceListFragment extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            Location lastKnownLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            if (lastKnownLocation != null) {
-                new DirectionDownloadTask(lastKnownLocation).execute();
+            Location myLocation = ((ListPreviewFragment) getParentFragment()).getMap().getMyLocation();
+            if (myLocation != null) {
+                new DirectionDownloadTask(myLocation).execute();
             } else {
                 Toast.makeText(getActivity(), "Can't get current location", Toast.LENGTH_SHORT).show();
             }
