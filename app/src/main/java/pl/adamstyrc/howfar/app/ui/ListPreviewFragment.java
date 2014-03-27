@@ -57,8 +57,8 @@ public class ListPreviewFragment extends Fragment {
             }
             ft.commit();
         } else {
-            mListFragment = (ListFragment) getFragmentManager().findFragmentByTag(LIST_FRAGMENT);
-            mPreviewFragment = getFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
+            mListFragment = (ListFragment) getChildFragmentManager().findFragmentByTag(LIST_FRAGMENT);
+            mPreviewFragment = getChildFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
         }
 
         return view;
@@ -95,20 +95,19 @@ public class ListPreviewFragment extends Fragment {
 
         }
 
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.show(mPreviewFragment).commit();
-    }
-
-    public void hideMap() {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.hide(mPreviewFragment).commit();
+        if (mIsPhone) {
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.show(mPreviewFragment)
+                    .remove(mListFragment)
+                    .addToBackStack(null).commit();
+        }
     }
 
     public void onBackPressed() {
-        if (mPreviewFragment.isHidden()) {
-            getActivity().finish();
+        if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+            getChildFragmentManager().popBackStack();
         } else {
-            hideMap();
+            getActivity().finish();
         }
     }
 
