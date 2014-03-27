@@ -30,6 +30,7 @@ public class MainActivity extends FragmentActivity {
     private DrawerAdapter mDrawerAdapter;
 
     private ListPreviewFragment mListPreviewFragment;
+    private boolean mShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerToggle.syncState();
     }
 
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -99,6 +101,12 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home && !mDrawerToggle.isDrawerIndicatorEnabled()) {
+            onBackPressed();
+            showHomeAsUp(false);
+            return true;
+        }
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -129,5 +137,11 @@ public class MainActivity extends FragmentActivity {
                 return true;
             }
         });
+    }
+
+    public void showHomeAsUp(boolean show) {
+        mDrawerToggle.setDrawerIndicatorEnabled(!show);
+        mDrawerToggle.syncState();
+//        getActionBar().setDisplayHomeAsUpEnabled(show);
     }
 }

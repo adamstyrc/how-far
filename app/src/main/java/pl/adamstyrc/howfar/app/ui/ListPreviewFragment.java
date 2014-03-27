@@ -100,6 +100,8 @@ public class ListPreviewFragment extends Fragment {
             ft.show(mPreviewFragment)
                     .remove(mListFragment)
                     .addToBackStack(null).commit();
+
+            ((MainActivity) getActivity()).showHomeAsUp(true);
         }
     }
 
