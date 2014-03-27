@@ -1,19 +1,12 @@
 package pl.adamstyrc.howfar.app.ui;
 
 import android.app.ActionBar;
-import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,7 +30,6 @@ public class MainActivity extends FragmentActivity {
     private DrawerAdapter mDrawerAdapter;
 
     private ListPreviewFragment mListPreviewFragment;
-    private LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +58,6 @@ public class MainActivity extends FragmentActivity {
             }
         };
 
-        // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,23 +76,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-// Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                Log.d("ACHTUNG", "" + location.getLatitude() + " " + location.getLongitude());
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-            public void onProviderEnabled(String provider) {}
-
-            public void onProviderDisabled(String provider) {}
-        };
-
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
         mListPreviewFragment = (ListPreviewFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         if (mListPreviewFragment == null) {
             mListPreviewFragment = new ListPreviewFragment();
@@ -114,7 +88,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
 
@@ -126,12 +99,9 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }
