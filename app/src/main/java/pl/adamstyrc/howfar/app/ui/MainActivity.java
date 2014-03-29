@@ -31,6 +31,8 @@ public class MainActivity extends FragmentActivity {
 
     private ListPreviewFragment mListPreviewFragment;
     private boolean mShow;
+    private View mAddButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MainActivity extends FragmentActivity {
 
         setActionBarSelector();
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setHomeButtonEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -63,7 +66,7 @@ public class MainActivity extends FragmentActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = (ListView) findViewById(R.id.drawer_list);
         mDrawerAdapter = new DrawerAdapter(this, PlaceManager.getInstance(this).getPlaces());
         mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,6 +76,16 @@ public class MainActivity extends FragmentActivity {
                 popupMenu.inflate(R.menu.place_popup_menu);
                 popupMenu.show();
                 Place place = mDrawerAdapter.getItem(position);
+            }
+        });
+
+        mAddButton = findViewById(R.id.add_button);
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAddButton.setVisibility(View.GONE);
+                findViewById(R.id.new_item).setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -149,4 +162,5 @@ public class MainActivity extends FragmentActivity {
         mDrawerToggle.syncState();
 //        getActionBar().setDisplayHomeAsUpEnabled(show);
     }
+
 }
