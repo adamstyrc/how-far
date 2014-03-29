@@ -57,7 +57,7 @@ public class PlaceListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mAdapter = new PlaceAdapter(getActivity(), PlaceManager.getInstance().getPlaces());
+        mAdapter = new PlaceAdapter(getActivity(), PlaceManager.getInstance(getActivity()).getPlaces());
         setListAdapter(mAdapter);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,7 +82,7 @@ public class PlaceListFragment extends ListFragment {
         protected Void doInBackground(Void... voids) {
             int meanOfTransport = new TransportManager(getActivity()).getMeanOfTransport();
             try {
-                for (Place place : PlaceManager.getInstance().getPlaces()) {
+                for (Place place : PlaceManager.getInstance(getActivity()).getPlaces()) {
                     Route route = DirectionsService.getInstance().getRoute(mUserLocation, place.getAddress(), meanOfTransport);
                     if (route != null) {
                         place.setTime(route.getTotalDuration());

@@ -33,6 +33,7 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
             valueText.setText(place.getTime() + " (" + place.getDistance() + ")");
         }
 
+
         return view;
     }
 }

@@ -1,40 +1,40 @@
 package pl.adamstyrc.howfar.app;
 
-import java.util.ArrayList;
+import android.content.Context;
 
-/**
- * Created by Light on 19.03.14.
- */
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlaceManager {
 
     private static PlaceManager sInstance;
 
-    public static synchronized PlaceManager getInstance() {
+    private List<Place> mPlaces;
+    private DatabaseHelper mDatabaseHelper = null;
+
+    public static synchronized PlaceManager getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new PlaceManager();
+            sInstance = new PlaceManager(context);
         }
 
         return sInstance;
     }
 
-    private ArrayList<Place> mPlaces;
-
-    private PlaceManager() {
-        mPlaces = new ArrayList<Place>();
-        Place place = new Place("Dom");
-        place.setAddress("Racławicka 1, Kraków");
-        mPlaces.add(place);
-
-        place = new Place("Praca");
-        place.setAddress("Bolesława Czerwieńskiego 8, Kraków");
-        mPlaces.add(place);
-
-        place = new Place("Ada");
-        place.setAddress("Freidleina 18, Kraków");
-        mPlaces.add(place);
+    public void clear() {
+        OpenHelperManager.releaseHelper();
+        mDatabaseHelper = null;
+        sInstance = null;
     }
 
-    public ArrayList<Place> getPlaces() {
+    private PlaceManager(Context context) {
+        mPlaces = new ArrayList<Place>();
+        mDatabaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
+        mPlaces = mDatabaseHelper.getPlaceDao().queryForAll();
+    }
+
+    public List<Place> getPlaces() {
         return mPlaces;
     }
 }

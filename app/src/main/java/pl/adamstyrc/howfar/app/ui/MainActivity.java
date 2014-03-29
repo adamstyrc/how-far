@@ -64,7 +64,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerAdapter = new DrawerAdapter(this, PlaceManager.getInstance().getPlaces());
+        mDrawerAdapter = new DrawerAdapter(this, PlaceManager.getInstance(this).getPlaces());
         mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -91,6 +91,12 @@ public class MainActivity extends FragmentActivity {
         mDrawerToggle.syncState();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        PlaceManager.getInstance(this).clear();
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
