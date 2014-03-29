@@ -38,6 +38,8 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         setActionBarSelector();
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -60,9 +62,6 @@ public class MainActivity extends FragmentActivity {
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerAdapter = new DrawerAdapter(this, PlaceManager.getInstance().getPlaces());

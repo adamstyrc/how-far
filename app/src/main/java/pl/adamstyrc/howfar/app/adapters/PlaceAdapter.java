@@ -29,7 +29,9 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
         nameText.setText(place.getName());
 
         TextView valueText = (TextView) view.findViewById(R.id.value);
-        valueText.setText(place.getDistance() + "(" + place.getTime() + ")");
+        if (place.getTime() != null) {
+            valueText.setText(place.getTime() + " (" + place.getDistance() + ")");
+        }
 
         return view;
     }
