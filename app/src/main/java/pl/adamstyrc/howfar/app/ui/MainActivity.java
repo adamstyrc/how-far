@@ -1,16 +1,22 @@
 package pl.adamstyrc.howfar.app.ui;
 
 import android.app.ActionBar;
+import android.content.ClipData;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 
@@ -32,6 +38,10 @@ public class MainActivity extends FragmentActivity {
     private ListPreviewFragment mListPreviewFragment;
     private boolean mShow;
     private View mAddButton;
+    private View mSaveButton;
+    private EditText mNewNameEdit;
+    private EditText mNewAddressEdit;
+    private View mRemoveButton;
 
 
     @Override
@@ -67,11 +77,27 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        mDrawerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                ClipData data = ClipData.newPlainText(String.valueOf(id), "text");
+                data.addItem(new ClipData.Item("HAHA"));
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDrag(data, shadowBuilder, null, 0);
+
+                view.setVisibility(View.GONE);
+
+                mRemoveButton.setVisibility(View.VISIBLE);
+                mAddButton.setVisibility(View.GONE);
+
+                return true;
+            }
+        });
         mDrawerAdapter = new DrawerAdapter(this, PlaceManager.getInstance(this).getPlaces());
         mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
                 popupMenu.inflate(R.menu.place_popup_menu);
                 popupMenu.show();
@@ -86,6 +112,90 @@ public class MainActivity extends FragmentActivity {
                 mAddButton.setVisibility(View.GONE);
                 findViewById(R.id.new_item).setVisibility(View.VISIBLE);
 
+            }
+        });
+
+        mRemoveButton = findViewById(R.id.remove_button);
+        mRemoveButton.setOnDragListener(new View.OnDragListener() {
+
+            private boolean mIsOnRemove;
+
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                Log.d("ACHTUNG2", dragEvent.getAction() + "");
+
+                switch (dragEvent.getAction()) {
+//                    case DragEvent.ACTION_DRAG_ENTERED:
+//                        mIsOnRemove = true;
+//                        break;
+//                    case DragEvent.ACTION_DRAG_EXITED:
+//                        mIsOnRemove = false;
+                    case DragEvent.ACTION_DRAG_ENDED:
+                        mRemoveButton.setVisibility(View.GONE);
+                        mAddButton.setVisibility(View.VISIBLE);
+
+//                        if (mIsOnRemove) {
+//                            int position = Integer.parseInt(dragEvent.getClipDescription().getLabel().toString());
+//                            PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
+//                            placeManager.removePlace(position);
+//
+//                            mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
+//                            mDrawerList.setAdapter(mDrawerAdapter);
+//                        }
+                        break;
+                    case DragEvent.ACTION_DROP:
+                        int position = Integer.parseInt(dragEvent.getClipDescription().getLabel().toString());
+                        PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
+                        placeManager.removePlace(position);
+
+                        mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
+                        mDrawerList.setAdapter(mDrawerAdapter);
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+
+        mNewNameEdit = (EditText) findViewById(R.id.new_name);
+        mNewAddressEdit = (EditText) findViewById(R.id.new_address);
+
+        mSaveButton = findViewById(R.id.save);
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
+                placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
+
+                View newItem = findViewById(R.id.bottom_frame);
+
+                Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide);
+                newItem.startAnimation(slide);
+//                int listViewMiddleY = (mDrawerList.getBottom() - mDrawerList.getTop()) / 2;
+//                TranslateAnimation slide = new TranslateAnimation(0,0,0,  listViewMiddleY - newItem.getBottom());
+//                slide.setDuration(500);
+//                slide.setFillAfter(false);
+                slide.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
+                        mDrawerList.setAdapter(mDrawerAdapter);
+
+                        mAddButton.setVisibility(View.VISIBLE);
+                        findViewById(R.id.new_item).setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
             }
         });
 

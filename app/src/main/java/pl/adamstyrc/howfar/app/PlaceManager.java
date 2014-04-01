@@ -37,4 +37,16 @@ public class PlaceManager {
     public List<Place> getPlaces() {
         return mPlaces;
     }
+
+    public void addPlace(String name, String address) {
+        Place newPlace = new Place(name, address);
+        mDatabaseHelper.getPlaceDao().create(newPlace);
+
+        mPlaces = mDatabaseHelper.getPlaceDao().queryForAll();
+    }
+
+    public void removePlace(int id) {
+        mDatabaseHelper.getPlaceDao().deleteById(id);
+        mPlaces = mDatabaseHelper.getPlaceDao().queryForAll();
+    }
 }

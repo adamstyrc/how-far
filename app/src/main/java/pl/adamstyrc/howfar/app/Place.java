@@ -9,7 +9,9 @@ import java.util.List;
 @DatabaseTable(tableName = "place")
 public class Place {
 
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
+    private int mId;
+    @DatabaseField(unique = true)
     private String mName;
     @DatabaseField
     private String mAddress;
@@ -64,5 +66,9 @@ public class Place {
 
     public List<LatLng> getRoute() {
         return mRoute;
+    }
+
+    public int getId() {
+        return mId;
     }
 }
