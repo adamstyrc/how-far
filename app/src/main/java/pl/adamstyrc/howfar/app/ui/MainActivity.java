@@ -3,6 +3,7 @@ package pl.adamstyrc.howfar.app.ui;
 import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +20,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
+
+
+import java.sql.SQLException;
 
 import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
@@ -166,36 +171,40 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 final PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
-                placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
+                try {
+                    placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
 
-                View newItem = findViewById(R.id.bottom_frame);
+                    View newItem = findViewById(R.id.bottom_frame);
 
-                Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide);
-                newItem.startAnimation(slide);
+                    Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide);
+                    newItem.startAnimation(slide);
 //                int listViewMiddleY = (mDrawerList.getBottom() - mDrawerList.getTop()) / 2;
 //                TranslateAnimation slide = new TranslateAnimation(0,0,0,  listViewMiddleY - newItem.getBottom());
 //                slide.setDuration(500);
 //                slide.setFillAfter(false);
-                slide.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
+                    slide.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
-                        mDrawerList.setAdapter(mDrawerAdapter);
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
+                            mDrawerList.setAdapter(mDrawerAdapter);
 
-                        mAddButton.setVisibility(View.VISIBLE);
-                        findViewById(R.id.new_item).setVisibility(View.GONE);
-                    }
+                            mAddButton.setVisibility(View.VISIBLE);
+                            findViewById(R.id.new_item).setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
 
-                    }
-                });
+                        }
+                    });
+                } catch (Exception e) {
+                    Toast.makeText(MainActivity.this, getString(R.string.validation_message) + e, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
