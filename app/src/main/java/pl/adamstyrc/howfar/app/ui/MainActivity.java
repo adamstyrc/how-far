@@ -227,7 +227,7 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        PlaceManager.getInstance(this).clear();
+//        PlaceManager.getInstance(this).clear();
     }
 
     @Override

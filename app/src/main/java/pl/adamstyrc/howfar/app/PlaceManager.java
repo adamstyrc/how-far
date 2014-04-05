@@ -49,4 +49,17 @@ public class PlaceManager {
         mDatabaseHelper.getPlaceDao().deleteById(id);
         mPlaces = mDatabaseHelper.getPlaceDao().queryForAll();
     }
+
+    public Place getPlaceById(int id) {
+        for (int i = 0; i < mPlaces.size(); i++) {
+            Place place = mPlaces.get(i);
+
+            if (place.getId() == id) {
+                return place;
+            }
+        }
+
+        return null;
+//        return mDatabaseHelper.getPlaceDao().queryForId(id);
+    }
 }

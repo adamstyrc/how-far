@@ -61,11 +61,8 @@ public class PlaceListFragment extends ListFragment {
         setListAdapter(mAdapter);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Place place = mAdapter.getItem(position);
-                if (place != null) {
-                    ((ListPreviewFragment) getParentFragment()).showMap(place);
-                }
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                ((ListPreviewFragment) getParentFragment()).showMap((int) id);
             }
         });
     }
