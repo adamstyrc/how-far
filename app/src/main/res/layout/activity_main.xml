@@ -21,7 +21,7 @@
         <ListView android:id="@+id/drawer_list"
                   android:layout_width="match_parent"
                   android:layout_height="0dp"
-                  android:layout_weight="5"
+                  android:layout_weight="1"
                   android:choiceMode="singleChoice"
                   android:dividerHeight="0dp"
                   />
@@ -29,23 +29,28 @@
         <FrameLayout
             android:id="@+id/bottom_frame"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_height="128dp"
+            android:background="#e0e0e0"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/add_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/add"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/add2"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 android:layout_gravity="center"
                 />
 
             <ImageView
                 android:id="@+id/remove_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/remove"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/remove2"
                 android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
                 android:visibility="gone"
                 />
 

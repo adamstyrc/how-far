@@ -47,6 +47,8 @@ public class MainActivity extends FragmentActivity {
     private EditText mNewNameEdit;
     private EditText mNewAddressEdit;
     private View mRemoveButton;
+    private View mBottomLayout;
+    private View mDraggedView;
 
 
     @Override
@@ -88,7 +90,8 @@ public class MainActivity extends FragmentActivity {
                 ClipData data = ClipData.newPlainText(String.valueOf(id), "text");
                 data.addItem(new ClipData.Item("HAHA"));
                 View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                view.startDrag(data, shadowBuilder, null, 0);
+                mDraggedView = view;
+                mDraggedView.startDrag(data, shadowBuilder, null, 0);
 
                 view.setVisibility(View.GONE);
 
@@ -110,6 +113,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        mBottomLayout = findViewById(R.id.bottom_frame);
         mAddButton = findViewById(R.id.add_button);
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,32 +125,18 @@ public class MainActivity extends FragmentActivity {
         });
 
         mRemoveButton = findViewById(R.id.remove_button);
-        mRemoveButton.setOnDragListener(new View.OnDragListener() {
-
-            private boolean mIsOnRemove;
-
+        mBottomLayout.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View view, DragEvent dragEvent) {
                 Log.d("ACHTUNG2", dragEvent.getAction() + "");
 
                 switch (dragEvent.getAction()) {
-//                    case DragEvent.ACTION_DRAG_ENTERED:
-//                        mIsOnRemove = true;
-//                        break;
-//                    case DragEvent.ACTION_DRAG_EXITED:
-//                        mIsOnRemove = false;
                     case DragEvent.ACTION_DRAG_ENDED:
                         mRemoveButton.setVisibility(View.GONE);
                         mAddButton.setVisibility(View.VISIBLE);
-
-//                        if (mIsOnRemove) {
-//                            int position = Integer.parseInt(dragEvent.getClipDescription().getLabel().toString());
-//                            PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
-//                            placeManager.removePlace(position);
-//
-//                            mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
-//                            mDrawerList.setAdapter(mDrawerAdapter);
-//                        }
+                        if (mDraggedView != null) {
+                            mDraggedView.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case DragEvent.ACTION_DROP:
                         int position = Integer.parseInt(dragEvent.getClipDescription().getLabel().toString());
