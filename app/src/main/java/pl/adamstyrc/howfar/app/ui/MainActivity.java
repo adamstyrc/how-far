@@ -1,56 +1,28 @@
 package pl.adamstyrc.howfar.app.ui;
 
-import android.animation.AnimatorSet;
 import android.app.ActionBar;
-import android.content.ClipData;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.TextView;
-import android.widget.Toast;
 
-
-import pl.adamstyrc.howfar.app.Place;
-import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.TransportManager;
-import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
 import pl.adamstyrc.howfar.app.adapters.SelectorAdapter;
 
 
 public class MainActivity extends FragmentActivity {
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerAdapter mDrawerAdapter;
 
     private ListPreviewFragment mListPreviewFragment;
-    private boolean mShow;
-    private View mAddButton;
-    private View mSaveButton;
-    private EditText mNewNameEdit;
-    private EditText mNewAddressEdit;
-    private View mRemoveButton;
-    private View mBottomLayout;
-    private View mDraggedView;
-    private View mAnimationItem;
-    private View mAddFormView;
+
 
 
     @Override
@@ -85,144 +57,12 @@ public class MainActivity extends FragmentActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mDrawerList = (ListView) findViewById(R.id.drawer_list);
-        mDrawerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                ClipData data = ClipData.newPlainText(String.valueOf(id), "text");
-                data.addItem(new ClipData.Item("HAHA"));
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                mDraggedView = view;
-                mDraggedView.startDrag(data, shadowBuilder, null, 0);
-
-                view.setVisibility(View.GONE);
-
-                mRemoveButton.setVisibility(View.VISIBLE);
-                mAddButton.setVisibility(View.GONE);
-
-                return true;
-            }
-        });
-        mDrawerAdapter = new DrawerAdapter(this, PlaceManager.getInstance(this).getPlaces());
-        mDrawerList.setAdapter(mDrawerAdapter);
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
-                popupMenu.inflate(R.menu.place_popup_menu);
-                popupMenu.show();
-                Place place = mDrawerAdapter.getItem(position);
-            }
-        });
-
-        mBottomLayout = findViewById(R.id.bottom_frame);
-        mAddButton = findViewById(R.id.add_button);
-        mAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAddButton.setVisibility(View.GONE);
-                mAddFormView.setVisibility(View.VISIBLE);
-
-            }
-        });
-
-        mRemoveButton = findViewById(R.id.remove_button);
-        mBottomLayout.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                switch (dragEvent.getAction()) {
-                    case DragEvent.ACTION_DRAG_ENDED:
-                        mRemoveButton.setVisibility(View.GONE);
-                        mAddButton.setVisibility(View.VISIBLE);
-                        if (mDraggedView != null) {
-                            mDraggedView.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    case DragEvent.ACTION_DROP:
-                        int position = Integer.parseInt(dragEvent.getClipDescription().getLabel().toString());
-                        PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
-                        placeManager.removePlace(position);
-
-                        mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
-                        mDrawerList.setAdapter(mDrawerAdapter);
-                        break;
-                }
-                return true;
-            }
-        });
-
-        mAnimationItem = findViewById(R.id.animation_item);
-        mAnimationItem.setVisibility(View.INVISIBLE);
-
-        mAddFormView = findViewById(R.id.add_form);
-        mNewNameEdit = (EditText) findViewById(R.id.new_name);
-        mNewAddressEdit = (EditText) findViewById(R.id.new_address);
-
-        mSaveButton = findViewById(R.id.save);
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
-                try {
-                    final Place newPlace = placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
-
-                    int toYDelta = computeAnimationDestinationY() - mAnimationItem.getTop();
-                    TranslateAnimation slide = new TranslateAnimation(0,0,0, toYDelta);
-                    slide.setDuration(500);
-                    slide.setFillAfter(false);
-
-                    mAnimationItem.startAnimation(slide);
-                    slide.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                            mAddFormView.setVisibility(View.GONE);
-                            mNewNameEdit.setText("");
-                            mNewAddressEdit.setText("");
-
-                            mAnimationItem.setVisibility(View.VISIBLE);
-                            ((TextView) mAnimationItem.findViewById(R.id.name)).setText(newPlace.getName());
-                            ((TextView) mAnimationItem.findViewById(R.id.address)).setText(newPlace.getAddress());
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            mAnimationItem.setVisibility(View.INVISIBLE);
-
-                            mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
-                            mDrawerList.setAdapter(mDrawerAdapter);
-
-                            mAddButton.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, getString(R.string.validation_message) + e, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         mListPreviewFragment = (ListPreviewFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
         if (mListPreviewFragment == null) {
             mListPreviewFragment = new ListPreviewFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.content_frame, mListPreviewFragment);
             ft.commit();
-        }
-    }
-
-    private int computeAnimationDestinationY() {
-        View lastListViewChild = mDrawerList.getChildAt(mDrawerList.getChildCount() - 1);
-        if (lastListViewChild == null) {
-            return mDrawerList.getTop();
-        }
-        if (lastListViewChild.getBottom() <= mDrawerList.getBottom()) {
-            return lastListViewChild.getBottom();
-        } else {
-            return mDrawerList.getBottom();
         }
     }
 

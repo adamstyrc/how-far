@@ -10,97 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- The navigation drawer -->
-    <RelativeLayout
-        android:layout_width="280dp"
-        android:orientation="vertical"
+    <!--<FrameLayout-->
+        <!--android:id="@+id/drawer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/> -->
+
+    <fragment
+        android:id="@+id/drawer"
+        class="pl.adamstyrc.howfar.app.ui.DrawerFragment"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#FFF">
-
-        <ListView android:id="@+id/drawer_list"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentTop="true"
-                  android:layout_above="@+id/bottom_frame"
-                  android:choiceMode="singleChoice"
-                  android:dividerHeight="0dp"/>
-
-        <FrameLayout
-            android:id="@+id/bottom_frame"
-            android:layout_width="match_parent"
-            android:layout_height="128dp"
-            android:layout_alignParentBottom="true"
-            android:background="#e0e0e0"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/add_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/add2"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                />
-
-            <ImageView
-                android:id="@+id/remove_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/remove2"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:visibility="gone"
-                />
-
-            <RelativeLayout
-                android:id="@+id/add_form"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/new_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Medium"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/save"
-                    android:hint="name"/>
-
-                <EditText
-                    android:id="@+id/new_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Small"
-                    android:layout_below="@id/new_name"
-                    android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/save"
-                    android:hint="address"/>
-
-                <ImageView
-                    android:id="@+id/save"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/add"/>
-
-                </RelativeLayout>
-        </FrameLayout>
-
-        <include
-            android:id="@+id/animation_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            layout="@layout/drawer_item"
-            />
-
-    </RelativeLayout>
+        android:layout_gravity="start"/>
 
 </android.support.v4.widget.DrawerLayout>
