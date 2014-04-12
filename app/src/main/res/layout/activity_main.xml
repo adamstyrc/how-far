@@ -10,11 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/drawer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/> -->
-
     <fragment
         android:id="@+id/drawer"
         class="pl.adamstyrc.howfar.app.ui.DrawerFragment"
