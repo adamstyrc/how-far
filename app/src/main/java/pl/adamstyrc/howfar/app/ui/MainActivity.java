@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.TransportManager;
@@ -18,12 +22,18 @@ import pl.adamstyrc.howfar.app.adapters.SelectorAdapter;
 
 public class MainActivity extends FragmentActivity {
 
+    private static final String LIST_FRAGMENT = "list fragment";
+    private static final String PREVIEW_FRAGMENT = "preview fragment";
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private ListPreviewFragment mListPreviewFragment;
+    private boolean mIsPhone;
+    private View mListLayout;
+    private View mPreviewLayout;
 
-
+    private ListFragment mListFragment;
+    private PlacePreviewFragment mPreviewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +64,9 @@ public class MainActivity extends FragmentActivity {
                 super.onDrawerOpened(drawerView);
             }
         };
-
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mListPreviewFragment = (ListPreviewFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
-        if (mListPreviewFragment == null) {
-            mListPreviewFragment = new ListPreviewFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.content_frame, mListPreviewFragment);
-            ft.commit();
-        }
+        setListPreview(savedInstanceState);
     }
 
     @Override
@@ -102,9 +105,60 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if (mListPreviewFragment != null) {
-            mListPreviewFragment.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            finish();
         }
+    }
+
+    private void setListPreview(Bundle savedInstanceState) {
+        mIsPhone = findViewById(R.id.right) == null;
+
+        if (mIsPhone) {
+            mListLayout = findViewById(R.id.left);
+            mPreviewLayout = findViewById(R.id.left);
+        } else {
+            mListLayout = findViewById(R.id.left);
+            mPreviewLayout = findViewById(R.id.right);
+        }
+
+        if (savedInstanceState == null) {
+            mListFragment = new PlaceListFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            mPreviewFragment = new PlacePreviewFragment();
+            ft.add(mListLayout.getId(), mListFragment, LIST_FRAGMENT)
+                    .add(mPreviewLayout.getId(), mPreviewFragment, PREVIEW_FRAGMENT);
+            if (mIsPhone) {
+                ft.hide(mPreviewFragment);
+            }
+            ft.commit();
+        } else {
+            mListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
+            mPreviewFragment = (PlacePreviewFragment) getSupportFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
+
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                getSupportFragmentManager().beginTransaction().hide(mPreviewFragment).commit();
+            }
+        }
+    }
+
+    public void showMap(int placeId) {
+        mPreviewFragment.showPlace(placeId);
+
+        if (mIsPhone) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.show(mPreviewFragment)
+                    .remove(mListFragment)
+                    .addToBackStack(null).commit();
+
+            showHomeAsUp(true);
+        }
+    }
+
+
+    public GoogleMap getMap() {
+        return ((SupportMapFragment) mPreviewFragment).getMap();
     }
 
     private void setActionBarSelector(){

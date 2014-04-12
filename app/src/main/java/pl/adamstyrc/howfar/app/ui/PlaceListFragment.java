@@ -43,7 +43,7 @@ public class PlaceListFragment extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            Location myLocation = ((ListPreviewFragment) getParentFragment()).getMap().getMyLocation();
+            Location myLocation = ((MainActivity) getActivity()).getMap().getMyLocation();
             if (myLocation != null) {
                 new DirectionDownloadTask(myLocation).execute();
             } else {
@@ -62,7 +62,7 @@ public class PlaceListFragment extends ListFragment {
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                ((ListPreviewFragment) getParentFragment()).showMap((int) id);
+                ((MainActivity) getActivity()).showMap((int) id);
             }
         });
     }
