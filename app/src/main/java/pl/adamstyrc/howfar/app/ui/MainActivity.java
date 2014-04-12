@@ -1,5 +1,6 @@
 package pl.adamstyrc.howfar.app.ui;
 
+import android.animation.AnimatorSet;
 import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.res.Configuration;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -150,7 +152,7 @@ public class MainActivity extends FragmentActivity {
         });
 
         mAnimationItem = findViewById(R.id.animation_item);
-        mAnimationItem.setVisibility(View.GONE);
+        mAnimationItem.setVisibility(View.INVISIBLE);
 
         mAddFormView = findViewById(R.id.add_form);
         mNewNameEdit = (EditText) findViewById(R.id.new_name);
@@ -164,14 +166,12 @@ public class MainActivity extends FragmentActivity {
                 try {
                     final Place newPlace = placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
 
-                    Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide);
-                    mAnimationItem.startAnimation(slide);
+                    int toYDelta = computeAnimationDestinationY() - mAnimationItem.getTop();
+                    TranslateAnimation slide = new TranslateAnimation(0,0,0, toYDelta);
+                    slide.setDuration(500);
+                    slide.setFillAfter(false);
 
-//                    mDrawerList.getChildAt(mDrawerList.getChildCount() - 1).
-//                int listViewMiddleY = (mDrawerList.getBottom() - mDrawerList.getTop()) / 2;
-//                TranslateAnimation slide = new TranslateAnimation(0,0,0,  listViewMiddleY - mAnimationItem.getBottom());
-//                slide.setDuration(500);
-//                slide.setFillAfter(false);
+                    mAnimationItem.startAnimation(slide);
                     slide.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
@@ -186,10 +186,11 @@ public class MainActivity extends FragmentActivity {
 
                         @Override
                         public void onAnimationEnd(Animation animation) {
+                            mAnimationItem.setVisibility(View.INVISIBLE);
+
                             mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
                             mDrawerList.setAdapter(mDrawerAdapter);
 
-                            mAnimationItem.setVisibility(View.GONE);
                             mAddButton.setVisibility(View.VISIBLE);
                         }
 
@@ -210,6 +211,18 @@ public class MainActivity extends FragmentActivity {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.content_frame, mListPreviewFragment);
             ft.commit();
+        }
+    }
+
+    private int computeAnimationDestinationY() {
+        View lastListViewChild = mDrawerList.getChildAt(mDrawerList.getChildCount() - 1);
+        if (lastListViewChild == null) {
+            return mDrawerList.getTop();
+        }
+        if (lastListViewChild.getBottom() <= mDrawerList.getBottom()) {
+            return lastListViewChild.getBottom();
+        } else {
+            return mDrawerList.getBottom();
         }
     }
 
