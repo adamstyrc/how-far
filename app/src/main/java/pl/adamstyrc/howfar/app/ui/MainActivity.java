@@ -137,7 +137,7 @@ public class MainActivity extends FragmentActivity {
             mListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
             mPreviewFragment = (PlacePreviewFragment) getSupportFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
 
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            if (mIsPhone && getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 getSupportFragmentManager().beginTransaction().hide(mPreviewFragment).commit();
             }
         }
