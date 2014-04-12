@@ -11,25 +11,26 @@
         android:layout_height="match_parent" />
 
     <!-- The navigation drawer -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="280dp"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity=""
         android:background="#FFF">
 
         <ListView android:id="@+id/drawer_list"
                   android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:layout_weight="1"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentTop="true"
+                  android:layout_above="@+id/bottom_frame"
                   android:choiceMode="singleChoice"
-                  android:dividerHeight="0dp"
-                  />
+                  android:dividerHeight="0dp"/>
 
         <FrameLayout
             android:id="@+id/bottom_frame"
             android:layout_width="match_parent"
             android:layout_height="128dp"
+            android:layout_alignParentBottom="true"
             android:background="#e0e0e0"
             android:padding="8dp">
 
@@ -55,7 +56,7 @@
                 />
 
             <RelativeLayout
-                android:id="@+id/new_item"
+                android:id="@+id/add_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -91,6 +92,15 @@
 
                 </RelativeLayout>
         </FrameLayout>
-    </LinearLayout>
+
+        <include
+            android:id="@+id/animation_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            layout="@layout/drawer_item"
+            />
+
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

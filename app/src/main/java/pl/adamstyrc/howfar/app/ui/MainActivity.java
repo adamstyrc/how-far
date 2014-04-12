@@ -3,7 +3,6 @@ package pl.adamstyrc.howfar.app.ui;
 import android.app.ActionBar;
 import android.content.ClipData;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -20,10 +19,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.sql.SQLException;
 
 import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
@@ -49,6 +47,8 @@ public class MainActivity extends FragmentActivity {
     private View mRemoveButton;
     private View mBottomLayout;
     private View mDraggedView;
+    private View mAnimationItem;
+    private View mAddFormView;
 
 
     @Override
@@ -119,7 +119,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 mAddButton.setVisibility(View.GONE);
-                findViewById(R.id.new_item).setVisibility(View.VISIBLE);
+                mAddFormView.setVisibility(View.VISIBLE);
 
             }
         });
@@ -128,8 +128,6 @@ public class MainActivity extends FragmentActivity {
         mBottomLayout.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View view, DragEvent dragEvent) {
-                Log.d("ACHTUNG2", dragEvent.getAction() + "");
-
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_ENDED:
                         mRemoveButton.setVisibility(View.GONE);
@@ -151,8 +149,10 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        mAnimationItem = findViewById(R.id.animation_item);
+        mAnimationItem.setVisibility(View.GONE);
 
-
+        mAddFormView = findViewById(R.id.add_form);
         mNewNameEdit = (EditText) findViewById(R.id.new_name);
         mNewAddressEdit = (EditText) findViewById(R.id.new_address);
 
@@ -162,20 +162,26 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 final PlaceManager placeManager = PlaceManager.getInstance(MainActivity.this);
                 try {
-                    placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
-
-                    View newItem = findViewById(R.id.bottom_frame);
+                    final Place newPlace = placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
 
                     Animation slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide);
-                    newItem.startAnimation(slide);
+                    mAnimationItem.startAnimation(slide);
+
+//                    mDrawerList.getChildAt(mDrawerList.getChildCount() - 1).
 //                int listViewMiddleY = (mDrawerList.getBottom() - mDrawerList.getTop()) / 2;
-//                TranslateAnimation slide = new TranslateAnimation(0,0,0,  listViewMiddleY - newItem.getBottom());
+//                TranslateAnimation slide = new TranslateAnimation(0,0,0,  listViewMiddleY - mAnimationItem.getBottom());
 //                slide.setDuration(500);
 //                slide.setFillAfter(false);
                     slide.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
+                            mAddFormView.setVisibility(View.GONE);
+                            mNewNameEdit.setText("");
+                            mNewAddressEdit.setText("");
 
+                            mAnimationItem.setVisibility(View.VISIBLE);
+                            ((TextView) mAnimationItem.findViewById(R.id.name)).setText(newPlace.getName());
+                            ((TextView) mAnimationItem.findViewById(R.id.address)).setText(newPlace.getAddress());
                         }
 
                         @Override
@@ -183,8 +189,8 @@ public class MainActivity extends FragmentActivity {
                             mDrawerAdapter = new DrawerAdapter(MainActivity.this, placeManager.getPlaces());
                             mDrawerList.setAdapter(mDrawerAdapter);
 
+                            mAnimationItem.setVisibility(View.GONE);
                             mAddButton.setVisibility(View.VISIBLE);
-                            findViewById(R.id.new_item).setVisibility(View.GONE);
                         }
 
                         @Override

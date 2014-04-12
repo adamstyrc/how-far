@@ -38,11 +38,12 @@ public class PlaceManager {
         return mPlaces;
     }
 
-    public void addPlace(String name, String address) {
+    public Place addPlace(String name, String address) {
         Place newPlace = new Place(name, address);
         mDatabaseHelper.getPlaceDao().create(newPlace);
 
         mPlaces = mDatabaseHelper.getPlaceDao().queryForAll();
+        return newPlace;
     }
 
     public void removePlace(int id) {
