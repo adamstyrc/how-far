@@ -1,6 +1,8 @@
 package pl.adamstyrc.howfar.app.ui;
 
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -71,15 +73,22 @@ public class PlacePreviewFragment extends SupportMapFragment {
         for (LatLng item : route) {
             bc.include(item);
         }
+
         getMap().setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
 
             @Override
             public void onCameraChange(CameraPosition arg0) {
-                getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
+                getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), getPadding()));
                 getMap().setOnCameraChangeListener(null);
             }
         });
         getMap().moveCamera(CameraUpdateFactory.zoomOut());
+    }
+
+    private int getPadding() {
+        Resources r = getResources();
+        int pixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 84, r.getDisplayMetrics());
+        return pixels;
     }
 
     @Override
