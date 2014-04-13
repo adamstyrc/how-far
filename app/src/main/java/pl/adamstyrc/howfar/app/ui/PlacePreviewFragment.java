@@ -3,10 +3,13 @@ package pl.adamstyrc.howfar.app.ui;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -58,12 +61,25 @@ public class PlacePreviewFragment extends SupportMapFragment {
             polylineOptions.color(getResources().getColor(R.color.map_path));
             getMap().addPolyline(polylineOptions);
 
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(route.get(0))      // Sets the center of the map to location user
-                    .zoom(9)                   // Sets the zoom
-                    .build();                   // Creates a CameraPosition from the builder
-            getMap().animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            zoomCameraToRoute(route);
         }
+    }
+
+    private void zoomCameraToRoute(List<LatLng> route) {
+        final LatLngBounds.Builder bc = new LatLngBounds.Builder();
+        for (LatLng item : route) {
+            bc.include(item);
+        }
+        getMap().setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+            @Override
+            public void onCameraChange(CameraPosition arg0) {
+                getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(bc.build(), 50));
+                getMap().setOnCameraChangeListener(null);
+            }
+        });
+        getMap().moveCamera(CameraUpdateFactory.zoomOut());
     }
 
     @Override
@@ -71,4 +87,5 @@ public class PlacePreviewFragment extends SupportMapFragment {
         super.onSaveInstanceState(outState);
         outState.putInt(PLACE_ID, mId);
     }
+
 }
