@@ -21,7 +21,7 @@ import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 
-public class PlacePreviewFragment extends SupportMapFragment {
+public class PlaceMapPreviewFragment extends SupportMapFragment {
 
     public static final String PLACE_ID = "place_id";
     public static final int NO_ID = -1;

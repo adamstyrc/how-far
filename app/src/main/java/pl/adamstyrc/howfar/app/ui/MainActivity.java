@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity {
     private View mPreviewLayout;
 
     private ListFragment mListFragment;
-    private PlacePreviewFragment mPreviewFragment;
+    private PlaceMapPreviewFragment mPreviewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +124,9 @@ public class MainActivity extends FragmentActivity {
         }
 
         if (savedInstanceState == null) {
-            mListFragment = new PlaceListFragment();
+            mListFragment = new PlaceTimetableFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            mPreviewFragment = new PlacePreviewFragment();
+            mPreviewFragment = new PlaceMapPreviewFragment();
             ft.add(mListLayout.getId(), mListFragment, LIST_FRAGMENT)
                     .add(mPreviewLayout.getId(), mPreviewFragment, PREVIEW_FRAGMENT);
             if (mIsPhone) {
@@ -135,7 +135,7 @@ public class MainActivity extends FragmentActivity {
             ft.commit();
         } else {
             mListFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag(LIST_FRAGMENT);
-            mPreviewFragment = (PlacePreviewFragment) getSupportFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
+            mPreviewFragment = (PlaceMapPreviewFragment) getSupportFragmentManager().findFragmentByTag(PREVIEW_FRAGMENT);
 
             if (mIsPhone && getSupportFragmentManager().getBackStackEntryCount() == 0) {
                 getSupportFragmentManager().beginTransaction().hide(mPreviewFragment).commit();

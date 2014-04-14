@@ -22,7 +22,7 @@ import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
 import pl.adamstyrc.howfar.app.events.PlaceListChangedEvent;
 
-public class DrawerFragment extends Fragment {
+public class PlaceManagerFragment extends Fragment {
 
     private ListView mDrawerList;
     private DrawerAdapter mDrawerAdapter;

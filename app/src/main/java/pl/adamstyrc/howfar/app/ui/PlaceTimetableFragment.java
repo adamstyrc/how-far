@@ -26,7 +26,7 @@ import pl.adamstyrc.howfar.app.TransportManager;
 import pl.adamstyrc.howfar.app.adapters.PlaceAdapter;
 import pl.adamstyrc.howfar.app.events.PlaceListChangedEvent;
 
-public class PlaceListFragment extends ListFragment {
+public class PlaceTimetableFragment extends ListFragment {
 
     private PlaceAdapter mAdapter;
 
