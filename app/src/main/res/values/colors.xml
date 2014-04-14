@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="map_path">#FFFF0000</color>
+    <color name="app_meaty">#FFD85642</color>
 </resources>

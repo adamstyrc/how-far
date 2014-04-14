@@ -57,6 +57,11 @@ public class PlaceListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setListAdapter(null);
+
+        View headerView = View.inflate(getActivity(), R.layout.place_list_header, null);
+        getListView().addHeaderView(headerView, null, false);
+
         mAdapter = new PlaceAdapter(getActivity(), PlaceManager.getInstance(getActivity()).getPlaces());
         setListAdapter(mAdapter);
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {

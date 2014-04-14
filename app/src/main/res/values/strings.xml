@@ -9,5 +9,6 @@
     <string name="drawer_open">Ala</string>
     <string name="drawer_close">Beata</string>
     <string name="validation_message">Place with given name already exists!</string>
+    <string name="unknown">n/a</string>
 
 </resources>
