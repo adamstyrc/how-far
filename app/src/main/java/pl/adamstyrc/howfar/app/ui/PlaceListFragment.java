@@ -11,15 +11,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
 import java.io.IOException;
+import java.util.List;
 
 import pl.adamstyrc.howfar.app.DirectionsService;
+import pl.adamstyrc.howfar.app.EventBus;
 import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.Route;
 import pl.adamstyrc.howfar.app.TransportManager;
 import pl.adamstyrc.howfar.app.adapters.PlaceAdapter;
+import pl.adamstyrc.howfar.app.events.PlaceListChangedEvent;
 
 public class PlaceListFragment extends ListFragment {
 
@@ -70,6 +75,26 @@ public class PlaceListFragment extends ListFragment {
                 ((MainActivity) getActivity()).showMap((int) id);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void update(PlaceListChangedEvent event) {
+        getListView().setAdapter(null);
+        List<Place> places = PlaceManager.getInstance(getActivity()).getPlaces();
+        mAdapter = new PlaceAdapter(getActivity(), places);
+        getListView().setAdapter(mAdapter);
     }
 
     public class DirectionDownloadTask extends AsyncTask<Void, Void, Void> {

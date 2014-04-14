@@ -15,10 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import pl.adamstyrc.howfar.app.EventBus;
 import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
+import pl.adamstyrc.howfar.app.events.PlaceListChangedEvent;
 
 public class DrawerFragment extends Fragment {
 
@@ -98,6 +100,8 @@ public class DrawerFragment extends Fragment {
                             mDrawerList.setAdapter(mDrawerAdapter);
 
                             mAddButton.setVisibility(View.VISIBLE);
+
+                            EventBus.getInstance().post(new PlaceListChangedEvent());
                         }
 
                         @Override
@@ -131,6 +135,8 @@ public class DrawerFragment extends Fragment {
 
                         mDrawerAdapter = new DrawerAdapter(getActivity(), placeManager.getPlaces());
                         mDrawerList.setAdapter(mDrawerAdapter);
+
+                        EventBus.getInstance().post(new PlaceListChangedEvent());
                         break;
                 }
                 return true;
