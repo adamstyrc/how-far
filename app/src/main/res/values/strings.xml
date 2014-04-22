@@ -10,5 +10,7 @@
     <string name="drawer_close">Beata</string>
     <string name="validation_message">Place with given name already exists!</string>
     <string name="unknown">n/a</string>
+    <string name="unknown_location_warning">Cannot get current location.</string>
+    <string name="no_internet_connection">No internet connection!</string>
 
 </resources>

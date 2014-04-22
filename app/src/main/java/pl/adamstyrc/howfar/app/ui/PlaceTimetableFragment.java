@@ -25,6 +25,7 @@ import pl.adamstyrc.howfar.app.Route;
 import pl.adamstyrc.howfar.app.TransportManager;
 import pl.adamstyrc.howfar.app.adapters.PlaceAdapter;
 import pl.adamstyrc.howfar.app.events.PlaceListChangedEvent;
+import pl.adamstyrc.howfar.app.utils.NetworkUtils;
 
 public class PlaceTimetableFragment extends ListFragment {
 
@@ -48,16 +49,24 @@ public class PlaceTimetableFragment extends ListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            Location myLocation = ((MainActivity) getActivity()).getMap().getMyLocation();
-            if (myLocation != null) {
-                new DirectionDownloadTask(myLocation).execute();
-            } else {
-                Toast.makeText(getActivity(), "Can't get current location", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.action_refresh) {
+
+            if (!NetworkUtils.isOnline(getActivity())) {
+                Toast.makeText(getActivity(), getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                return true;
             }
+
+            Location myLocation = ((MainActivity) getActivity()).getMap().getMyLocation();
+            if (myLocation == null) {
+                Toast.makeText(getActivity(), getString(R.string.unknown_location_warning), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            new DirectionDownloadTask(myLocation).execute();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
