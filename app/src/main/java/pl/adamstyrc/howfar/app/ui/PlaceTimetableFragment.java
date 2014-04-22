@@ -29,6 +29,7 @@ import pl.adamstyrc.howfar.app.events.PlaceListChangedEvent;
 public class PlaceTimetableFragment extends ListFragment {
 
     private PlaceAdapter mAdapter;
+    private MenuItem mRefreshItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class PlaceTimetableFragment extends ListFragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.main, menu);
+        mRefreshItem = menu.findItem(R.id.action_refresh);
     }
 
     @Override
@@ -106,6 +108,14 @@ public class PlaceTimetableFragment extends ListFragment {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            mRefreshItem.setVisible(false);
+            getActivity().setProgressBarIndeterminateVisibility(true);
+        }
+
+        @Override
         protected Void doInBackground(Void... voids) {
             int meanOfTransport = new TransportManager(getActivity()).getMeanOfTransport();
             try {
@@ -126,6 +136,8 @@ public class PlaceTimetableFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            getActivity().setProgressBarIndeterminateVisibility(false);
+            mRefreshItem.setVisible(true);
             mAdapter.notifyDataSetChanged();
         }
     }
