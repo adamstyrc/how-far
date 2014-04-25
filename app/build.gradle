@@ -10,10 +10,25 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        myConfig {
+            storeFile file("releaseKey")
+            storePassword "howfar123"
+            keyAlias "release"
+            keyPassword "howfar123"
+        }
+    }
+
     buildTypes {
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            debuggable false
+            signingConfig signingConfigs.myConfig
+        }
+
+        debug {
+            debuggable true
+            signingConfig signingConfigs.myConfig
         }
     }
 }
