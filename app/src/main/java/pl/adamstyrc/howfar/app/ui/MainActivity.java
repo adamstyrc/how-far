@@ -179,6 +179,7 @@ public class MainActivity extends FragmentActivity {
                 return true;
             }
         });
+        getActionBar().setSelectedNavigationItem(transportManager.getMeanOfTransport());
     }
 
     public void showHomeAsUp(boolean show) {

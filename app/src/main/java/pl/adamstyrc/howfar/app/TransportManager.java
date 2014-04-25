@@ -12,7 +12,7 @@ public class TransportManager {
     public static final int CAR = 2;
 
     private static final String PREFERENCE = "Preference";
-    private static final String MEAN_OF_TRANSPORT = "mean of transport";
+    private static final String MEAN_OF_TRANSPORT = "mean_of_transport";
     private final String[] mTransportOptions;
 
     private SharedPreferences mSharedPreferences;
