@@ -15,13 +15,14 @@ public class Place {
     private String mName;
     @DatabaseField
     private String mAddress;
-
+    @DatabaseField
     private String mDistance;
+    @DatabaseField
     private String mTime;
-    private List<LatLng> mRoute;
+    @DatabaseField
+    private String mRoute;
 
-    public Place() {
-    }
+    public Place() {}
 
     public Place(String name) {
         mName = name;
@@ -60,12 +61,15 @@ public class Place {
         mAddress = address;
     }
 
-    public void setRoute(List<LatLng> route) {
-        mRoute = route;
+    public void setRoute(Route route) {
+        mDistance = route.getTotalDistance();
+        mTime = route.getTotalDuration();
+        mRoute = route.getPoints();
     }
 
-    public List<LatLng> getRoute() {
-        return mRoute;
+    public List<LatLng> getRoutePoints() {
+        RouteParser routeParser = new RouteParser();
+        return routeParser.decodeRouteSteps(mRoute);
     }
 
     public int getId() {

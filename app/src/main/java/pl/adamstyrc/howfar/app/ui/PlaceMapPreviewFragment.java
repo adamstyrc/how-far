@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -50,7 +49,7 @@ public class PlaceMapPreviewFragment extends SupportMapFragment {
 
         getMap().clear();
 
-        List<LatLng> route = mPlace.getRoute();
+        List<LatLng> route = mPlace.getRoutePoints();
         if (route != null) {
             LatLng finalLocation = route.get(route.size() - 1);
             getMap().addMarker(new MarkerOptions()

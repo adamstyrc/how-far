@@ -1,19 +1,15 @@
 package pl.adamstyrc.howfar.app;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.List;
-
 public class Route {
 
     private String mTotalDistance;
     private String mTotalDuration;
-    private List<LatLng> mStepsLocations;
+    private String mPoints;
 
-    public Route(String totalDistance, String totalDuration, List<LatLng> stepsLocations) {
+    public Route(String totalDistance, String totalDuration, String points) {
         mTotalDistance = totalDistance;
         mTotalDuration = totalDuration;
-        mStepsLocations = stepsLocations;
+        mPoints = points;
     }
 
     public String getTotalDistance() {
@@ -24,7 +20,7 @@ public class Route {
         return mTotalDuration;
     }
 
-    public List<LatLng> getStepsLocations() {
-        return mStepsLocations;
+    public String getPoints() {
+        return mPoints;
     }
 }

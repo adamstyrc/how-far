@@ -46,6 +46,11 @@ public class PlaceManager {
         return newPlace;
     }
 
+    public void updatePlace(Place place) {
+        mDatabaseHelper.getPlaceDao().update(place);
+        mPlaces = mDatabaseHelper.getPlaceDao().queryForAll();
+    }
+
     public void removePlace(int id) {
         mDatabaseHelper.getPlaceDao().deleteById(id);
         mPlaces = mDatabaseHelper.getPlaceDao().queryForAll();

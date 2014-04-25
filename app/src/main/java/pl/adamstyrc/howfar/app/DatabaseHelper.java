@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String DATABASE_NAME = "helloAndroid.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // the DAO object we use to access the SimpleData table
     private Dao<Place, Integer> simpleDao = null;

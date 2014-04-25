@@ -18,34 +18,13 @@ public class RouteParser {
             JSONObject routesJSONObject = routes.getJSONObject(0);
 
             JSONArray legs = routesJSONObject.getJSONArray("legs");
-
-
-            ArrayList<LatLng> stepLocations = new ArrayList<LatLng>();
-
-
             JSONObject leg = legs.getJSONObject(0);
             String distance = leg.getJSONObject("distance").getString("text");
             String duration = leg.getJSONObject("duration").getString("text");
 
-            JSONArray steps = leg.getJSONArray("steps");
-            for (int i = 0; i < steps.length(); i++) {
-                JSONObject step = steps.getJSONObject(i);
-                JSONObject startLocation = step.getJSONObject("start_location");
-//                stepLocations.add(
-//                        new LatLng(startLocation.getDouble("lat"), startLocation.getDouble("lng"))
-//                );
-
-                JSONObject polyline = step.getJSONObject("polyline");
-                ArrayList<LatLng> polylinePoints = decodePoly(polyline.getString("points"));
-                stepLocations.addAll(polylinePoints);
-
-                JSONObject endLocation = step.getJSONObject("end_location");
-//                stepLocations.add(
-//                        new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng"))
-//                );
-            }
-
-            return new Route(distance, duration, stepLocations);
+            JSONObject overviewPolyline = routesJSONObject.getJSONObject("overview_polyline");
+            String points = overviewPolyline.getString("points");
+            return new Route(distance, duration, points);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -53,7 +32,7 @@ public class RouteParser {
         return null;
     }
 
-    private ArrayList<LatLng> decodePoly(String encoded) {
+    public ArrayList<LatLng> decodeRouteSteps(String encoded) {
         int index = 0, len = encoded.length();
         int lat = 0, lng = 0;
 
@@ -78,8 +57,6 @@ public class RouteParser {
             lng += dlng;
 
             LatLng position = new LatLng((double) lat / 1E5, (double) lng / 1E5);
-//            Log.d("Lat", String.valueOf(position.latitude));
-//            Log.d("Lng", String.valueOf(position.longitude));
             poly.add(position);
         }
 

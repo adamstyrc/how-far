@@ -128,12 +128,13 @@ public class PlaceTimetableFragment extends ListFragment {
         protected Void doInBackground(Void... voids) {
             int meanOfTransport = new TransportManager(getActivity()).getMeanOfTransport();
             try {
-                for (Place place : PlaceManager.getInstance(getActivity()).getPlaces()) {
+                PlaceManager placeManager = PlaceManager.getInstance(getActivity());
+
+                for (Place place : placeManager.getPlaces()) {
                     Route route = DirectionsService.getInstance().getRoute(mUserLocation, place.getAddress(), meanOfTransport);
                     if (route != null) {
-                        place.setTime(route.getTotalDuration());
-                        place.setDistance(route.getTotalDistance());
-                        place.setRoute(route.getStepsLocations());
+                        place.setRoute(route);
+                        placeManager.updatePlace(place);
                     }
                 }
 
@@ -147,7 +148,7 @@ public class PlaceTimetableFragment extends ListFragment {
         protected void onPostExecute(Void aVoid) {
             getActivity().setProgressBarIndeterminateVisibility(false);
             mRefreshItem.setVisible(true);
-            mAdapter.notifyDataSetChanged();
+            update(null);
         }
     }
 }
