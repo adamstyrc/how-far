@@ -69,6 +69,7 @@ public class MainActivity extends FragmentActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         setListPreview(savedInstanceState);
+        showHomeAsUp(isShowAsUp());
     }
 
     @Override
@@ -185,7 +186,9 @@ public class MainActivity extends FragmentActivity {
     public void showHomeAsUp(boolean show) {
         mDrawerToggle.setDrawerIndicatorEnabled(!show);
         mDrawerToggle.syncState();
-//        getActionBar().setDisplayHomeAsUpEnabled(show);
     }
 
+    private boolean isShowAsUp() {
+        return mIsPhone && getSupportFragmentManager().getBackStackEntryCount() > 0;
+    }
 }

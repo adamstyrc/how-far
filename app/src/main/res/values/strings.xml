@@ -3,11 +3,11 @@
 
     <string name="app_name">HowFar</string>
     <string name="hello_world">Hello world!</string>
-    <string name="refresh">Odśwież</string>
+    <string name="refresh">Refresh</string>
     <string name="title_place_list">Places</string>
     <string name="title_place_detail">Place Detail</string>
-    <string name="drawer_open">Ala</string>
-    <string name="drawer_close">Beata</string>
+    <string name="drawer_open"></string>
+    <string name="drawer_close"></string>
     <string name="validation_message">Place with given name already exists!</string>
     <string name="unknown">n/a</string>
     <string name="unknown_location_warning">Cannot get current location.</string>
