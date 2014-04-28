@@ -1,10 +1,12 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.models;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.List;
+
+import pl.adamstyrc.howfar.app.utils.RouteParser;
 
 @DatabaseTable(tableName = "place")
 public class Place {
@@ -33,14 +35,6 @@ public class Place {
         mAddress = address;
     }
 
-    public void setDistance(String distance) {
-        mDistance = distance;
-    }
-
-    public void setTime(String time) {
-        mTime = time;
-    }
-
     public String getName() {
         return mName;
     }
@@ -55,10 +49,6 @@ public class Place {
 
     public String getAddress() {
         return mAddress;
-    }
-
-    public void setAddress(String address) {
-        mAddress = address;
     }
 
     public void setRoute(Route route) {

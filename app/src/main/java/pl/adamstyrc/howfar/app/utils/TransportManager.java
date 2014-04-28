@@ -1,9 +1,11 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+
+import pl.adamstyrc.howfar.app.R;
 
 public class TransportManager {
 

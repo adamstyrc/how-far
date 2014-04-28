@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.utils;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import pl.adamstyrc.howfar.app.models.Route;
 
 public class RouteParser {
 

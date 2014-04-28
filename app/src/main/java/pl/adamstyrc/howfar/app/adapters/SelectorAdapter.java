@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import pl.adamstyrc.howfar.app.R;
-import pl.adamstyrc.howfar.app.TransportManager;
+import pl.adamstyrc.howfar.app.utils.TransportManager;
 
 public class SelectorAdapter extends ArrayAdapter<String> {
 

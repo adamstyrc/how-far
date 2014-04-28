@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.models;
 
 public class Route {
 

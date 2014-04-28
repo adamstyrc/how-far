@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.utils;
 
 import android.location.Location;
 
@@ -11,6 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import pl.adamstyrc.howfar.app.models.Route;
 
 public class DirectionsService {
     public static final String BASE_URL = "http://maps.googleapis.com/maps/api/directions/json?"

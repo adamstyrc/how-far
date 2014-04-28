@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.utils;
 
 
 import com.j256.ormlite.android.apptools.OrmLiteConfigUtil;

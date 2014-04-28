@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import pl.adamstyrc.howfar.app.Place;
+import pl.adamstyrc.howfar.app.models.Place;
 import pl.adamstyrc.howfar.app.R;
 
 

@@ -16,8 +16,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
-import pl.adamstyrc.howfar.app.Place;
-import pl.adamstyrc.howfar.app.PlaceManager;
+import pl.adamstyrc.howfar.app.models.Place;
+import pl.adamstyrc.howfar.app.utils.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 
 public class PlaceMapPreviewFragment extends SupportMapFragment {

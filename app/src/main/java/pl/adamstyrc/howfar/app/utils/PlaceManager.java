@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.utils;
 
 import android.content.Context;
 
@@ -6,6 +6,8 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.adamstyrc.howfar.app.models.Place;
 
 public class PlaceManager {
 

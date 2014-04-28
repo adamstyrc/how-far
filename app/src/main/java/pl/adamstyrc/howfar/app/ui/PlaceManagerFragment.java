@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
-import pl.adamstyrc.howfar.app.EventBus;
-import pl.adamstyrc.howfar.app.Place;
-import pl.adamstyrc.howfar.app.PlaceManager;
+import pl.adamstyrc.howfar.app.utils.EventBus;
+import pl.adamstyrc.howfar.app.models.Place;
+import pl.adamstyrc.howfar.app.utils.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
 import pl.adamstyrc.howfar.app.events.DrawerClosedEvent;

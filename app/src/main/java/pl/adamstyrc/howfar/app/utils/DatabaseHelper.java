@@ -1,4 +1,4 @@
-package pl.adamstyrc.howfar.app;
+package pl.adamstyrc.howfar.app.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +10,9 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+
+import pl.adamstyrc.howfar.app.models.Place;
+import pl.adamstyrc.howfar.app.R;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 

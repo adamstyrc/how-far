@@ -16,9 +16,9 @@ import android.widget.ArrayAdapter;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import pl.adamstyrc.howfar.app.EventBus;
+import pl.adamstyrc.howfar.app.utils.EventBus;
 import pl.adamstyrc.howfar.app.R;
-import pl.adamstyrc.howfar.app.TransportManager;
+import pl.adamstyrc.howfar.app.utils.TransportManager;
 import pl.adamstyrc.howfar.app.adapters.SelectorAdapter;
 import pl.adamstyrc.howfar.app.events.DrawerClosedEvent;
 
