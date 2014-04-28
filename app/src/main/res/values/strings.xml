@@ -8,7 +8,8 @@
     <string name="title_place_detail">Place Detail</string>
     <string name="drawer_open"></string>
     <string name="drawer_close"></string>
-    <string name="validation_message">Place with given name already exists!</string>
+    <string name="place_already_exists">Place with given name already exists!</string>
+    <string name="empty_place_name">Please, put some place name.</string>
     <string name="unknown">n/a</string>
     <string name="unknown_location_warning">Cannot get current location.</string>
     <string name="no_internet_connection">No internet connection!</string>

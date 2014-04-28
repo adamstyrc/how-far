@@ -3,6 +3,7 @@ package pl.adamstyrc.howfar.app.ui;
 import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +95,11 @@ public class PlaceManagerFragment extends Fragment {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (TextUtils.isEmpty(mNewNameEdit.getText().toString())) {
+                    Toast.makeText(getActivity(), getString(R.string.empty_place_name), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 final PlaceManager placeManager = PlaceManager.getInstance(getActivity());
                 try {
                     final Place newPlace = placeManager.addPlace(mNewNameEdit.getText().toString(), mNewAddressEdit.getText().toString());
@@ -134,7 +140,7 @@ public class PlaceManagerFragment extends Fragment {
                         }
                     });
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), getString(R.string.validation_message) + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.place_already_exists), Toast.LENGTH_SHORT).show();
                 }
             }
         });
