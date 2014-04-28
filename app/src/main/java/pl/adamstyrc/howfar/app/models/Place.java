@@ -59,7 +59,11 @@ public class Place {
 
     public List<LatLng> getRoutePoints() {
         RouteParser routeParser = new RouteParser();
-        return routeParser.decodeRouteSteps(mRoute);
+        if (mRoute != null) {
+            return routeParser.decodeRouteSteps(mRoute);
+        } else {
+            return null;
+        }
     }
 
     public int getId() {
