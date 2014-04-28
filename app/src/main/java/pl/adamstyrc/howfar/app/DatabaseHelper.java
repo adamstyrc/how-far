@@ -42,9 +42,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         RuntimeExceptionDao<Place, Integer> dao = getPlaceDao();
         long millis = System.currentTimeMillis();
         // create some entries in the onCreate
-        Place simple = new Place("Dom", "Racławicka 1, Kraków");
-        dao.create(simple);
-        simple = new Place("Praca", "Bolesława Czerwieńskiego 8, Kraków");
+        Place simple = new Place("Sample Place", "Main square, Cracow");
         dao.create(simple);
         Log.i(DatabaseHelper.class.getName(), "created new entries in onCreate: " + millis);
     }
