@@ -15,11 +15,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
 import pl.adamstyrc.howfar.app.EventBus;
 import pl.adamstyrc.howfar.app.Place;
 import pl.adamstyrc.howfar.app.PlaceManager;
 import pl.adamstyrc.howfar.app.R;
 import pl.adamstyrc.howfar.app.adapters.DrawerAdapter;
+import pl.adamstyrc.howfar.app.events.DrawerClosedEvent;
 import pl.adamstyrc.howfar.app.events.PlaceListChangedEvent;
 
 public class PlaceManagerFragment extends Fragment {
@@ -64,6 +67,27 @@ public class PlaceManagerFragment extends Fragment {
         setSaveButton();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void hideAddForm(DrawerClosedEvent event) {
+        mAddFormView.setVisibility(View.GONE);
+        mNewNameEdit.getText().clear();
+        mNewAddressEdit.getText().clear();
+
+        mAddButton.setVisibility(View.VISIBLE);
     }
 
     private void setSaveButton() {
@@ -164,10 +188,12 @@ public class PlaceManagerFragment extends Fragment {
                 mDraggedView = view;
                 mDraggedView.startDrag(data, shadowBuilder, null, 0);
 
+
                 view.setVisibility(View.GONE);
 
                 mRemoveButton.setVisibility(View.VISIBLE);
                 mAddButton.setVisibility(View.GONE);
+                mAddFormView.setVisibility(View.GONE);
 
                 return true;
             }
