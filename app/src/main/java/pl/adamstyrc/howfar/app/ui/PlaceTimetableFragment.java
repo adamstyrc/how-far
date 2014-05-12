@@ -102,10 +102,12 @@ public class PlaceTimetableFragment extends ListFragment {
 
     @Subscribe
     public void update(PlaceListChangedEvent event) {
-        getListView().setAdapter(null);
-        List<Place> places = PlaceManager.getInstance(getActivity()).getPlaces();
-        mAdapter = new PlaceAdapter(getActivity(), places);
-        getListView().setAdapter(mAdapter);
+        if (isResumed()) {
+            getListView().setAdapter(null);
+            List<Place> places = PlaceManager.getInstance(getActivity()).getPlaces();
+            mAdapter = new PlaceAdapter(getActivity(), places);
+            getListView().setAdapter(mAdapter);
+        }
     }
 
     public class DirectionDownloadTask extends AsyncTask<Void, Void, Void> {
