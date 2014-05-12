@@ -151,7 +151,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void showMap(int placeId) {
-        mPreviewFragment.showPlace(placeId);
+        mPreviewFragment.zoomToPlace(placeId);
 
         if (mIsPhone) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

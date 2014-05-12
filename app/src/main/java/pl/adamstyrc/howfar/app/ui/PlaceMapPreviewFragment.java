@@ -43,6 +43,11 @@ public class PlaceMapPreviewFragment extends SupportMapFragment {
         }
     }
 
+    public void zoomToPlace(int placeId) {
+        showPlace(placeId);
+        zoomCameraToRoute(mPlace.getRoutePoints());
+    }
+
     public void showPlace(int placeId) {
         mId = placeId;
         mPlace = PlaceManager.getInstance(getActivity()).getPlaceById(placeId);
@@ -61,9 +66,6 @@ public class PlaceMapPreviewFragment extends SupportMapFragment {
             polylineOptions.width(7);
             polylineOptions.color(getResources().getColor(R.color.map_path));
             getMap().addPolyline(polylineOptions);
-
-
-            zoomCameraToRoute(route);
         }
     }
 
