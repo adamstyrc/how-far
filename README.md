@@ -8,7 +8,7 @@ Used external libs/APIs:
 
 App is restricted by Google Directions request limit 2500/day.
 
+Screenshots:
+https://drive.google.com/folderview?id=0B4SDFTe28sSeNXZmNDJqelp0ZHM&usp=sharing
 
-
-
-  
+![Screenshot_20151024-210816.png](https://bitbucket.org/repo/XM9oMy/images/1230877684-Screenshot_20151024-210816.png)
