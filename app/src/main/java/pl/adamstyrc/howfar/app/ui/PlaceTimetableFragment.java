@@ -31,6 +31,7 @@ public class PlaceTimetableFragment extends ListFragment {
 
     private PlaceAdapter mAdapter;
     private MenuItem mRefreshItem;
+    private DirectionDownloadTask mDownloadTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,8 @@ public class PlaceTimetableFragment extends ListFragment {
                 return true;
             }
 
-            new DirectionDownloadTask(myLocation).execute();
+            mDownloadTask = new DirectionDownloadTask(myLocation);
+            mDownloadTask.execute();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -100,6 +102,16 @@ public class PlaceTimetableFragment extends ListFragment {
         EventBus.getInstance().unregister(this);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mDownloadTask != null && !mDownloadTask.isCancelled()) {
+            mDownloadTask.cancel(true);
+            mDownloadTask = null;
+        }
+    }
+
     @Subscribe
     public void update(PlaceListChangedEvent event) {
         if (isResumed()) {
@@ -108,6 +120,8 @@ public class PlaceTimetableFragment extends ListFragment {
             mAdapter = new PlaceAdapter(getActivity(), places);
             getListView().setAdapter(mAdapter);
         }
+
+        mDownloadTask = null;
     }
 
     public class DirectionDownloadTask extends AsyncTask<Void, Void, Void> {
@@ -148,7 +162,9 @@ public class PlaceTimetableFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            getActivity().setProgressBarIndeterminateVisibility(false);
+            if (isResumed()) {
+                getActivity().setProgressBarIndeterminateVisibility(false);
+            }
             mRefreshItem.setVisible(true);
             update(null);
         }
