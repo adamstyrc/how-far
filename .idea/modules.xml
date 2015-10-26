@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Howfar.iml" filepath="$PROJECT_DIR$/Howfar.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/howfar.iml" filepath="$PROJECT_DIR$/howfar.iml" />
     </modules>
   </component>
 </project>
-
